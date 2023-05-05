@@ -52,6 +52,6 @@ $warna = ['Coklat', 'Abu abu', 'Putih', 'Hijau Merah', 'Hijau']
 
 </html>
 
-// mengurutkan array
+//mengurutkan array
 short array warna {}
 , $warna = <i></i>
