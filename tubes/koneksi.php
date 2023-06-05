@@ -1,8 +1,8 @@
 <?php
-$conn = mysqli_connect('localhost', 'root', '', 'fashion');
+$conn = mysqli_connect('localhost', 'root', '', 'fashion1');
 
 // Check connection
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  exit;
 }
-echo "Connected successfully";
