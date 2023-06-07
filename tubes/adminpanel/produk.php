@@ -39,14 +39,20 @@ function generateRandomString($length = 10)
   form div {
     margin-bottom: 10px;
   }
+
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+  }
 </style>
 
 <body>
   <?php require "navbar.php"; ?>
 
-  <div class="container mt-5">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
+  <div class="container mt-5 ">
+    <nav aria-label="breadcrumb ">
+      <ol class="breadcrumb no-print">
         <li class="breadcrumb-item active" aria-current="page">
           <a href="../adminpanel" class="no-decoration text-muted">
             <i class="fas fa-home"></i> Home
@@ -59,7 +65,7 @@ function generateRandomString($length = 10)
     </nav>
 
     <!-- tambah produk -->
-    <div class="my-5 col-12 col-md-6">
+    <div class="my-5 col-12 col-md-6 no-print">
       <h3> Tambah Produk</h3>
 
       <form action="" method="post" enctype="multipart/form-data">

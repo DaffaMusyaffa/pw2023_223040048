@@ -25,9 +25,7 @@
   <div class="container-fluid py-5">
     <div class="container fs-5 text-center">
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas consequuntur voluptatem, atque esse quaerat quasi impedit doloremque. Corporis, et assumenda.
-      </p>
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora possimus unde iure pariatur accusamus neque fugit perferendis, tempore aliquam quibusdam.
+        Fashion Nova is the worlds leading quick-to-market apparel and lifestyle brand. We are renowned for delivering the seasons most wanted styles to millions of people worldwide, which earned us the title of the #1 Most-Searched Fashion Brand on Google in 2018. As a Los Angeles based company with 5 retail stores throughout Southern California, we sell collections for women, men, curve, and kids. We are a pop culture phenomenon, reaching staggering social media followings of over 25 million, of which includes celebrity fans and collaborators. Our name has been featured in songs and our styles have been worn by your favorite celebs. From Cardi B to Kylie Jenner, there isnt a famous booty our jeans havent been on. Tyga, The Game, YG, City Girls, Saweetie, Offset—youll hear Fashion Nova mentioned in the hottest chart-topping hits, worldwide.
       </p>
     </div>
   </div>

@@ -17,6 +17,13 @@
         <li class="nav-item me-4">
           <a class="nav-link" href="logout.php">Logout</a>
         </li>
+        <li class="nav-item me-4">
+          <div class="container no-print">
+            <button onclick="window.print()">
+              <i class="bi bi-journal plus">Print</i>
+            </button>
+          </div>
+        </li>
       </ul>
     </div>
   </div>
