@@ -20,29 +20,32 @@
     url(../image/fashion.png);
 }
 
-.highlighted-kategori {
+.highlighted-kategorp {
   height: 250px;
 }
 
 .kategori-fashion-pria {
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url(../image/prada.jpg);
+    url(../image/bg1.jpg);
   background-size: cover;
   background-position: center;
+  height: 500px;
 }
 
 .kategori-fashion-wanita {
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url(../image/gucci.jpg);
+    url(../image/bg2.jpg);
   background-size: cover;
   background-position: center;
+  height: 500px;
 }
 
 .kategori-hoodie {
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url(../image/chanel.jpg);
+    url(../image/bg3.jpg);
   background-size: cover;
   background-position: center;
+  height: 500px;
 }
 
 .no-decoration {
@@ -60,7 +63,7 @@
 }
 
 .image-box {
-  height: 250px;
+  height: 750px;
 }
 
 .image-box img {

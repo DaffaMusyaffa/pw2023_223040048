@@ -1,4 +1,5 @@
 <?php
+
 require "koneksi.php";
 
 $nama = htmlspecialchars($_GET['nama']);

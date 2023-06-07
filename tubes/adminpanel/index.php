@@ -7,6 +7,9 @@ $jumlahKategori = mysqli_num_rows($queryKategori);
 
 $queryProduk = mysqli_query($conn, "SELECT * FROM produk");
 $jumlahProduk = mysqli_num_rows($queryProduk);
+
+$username = $_COOKIE["username"];
+
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +54,7 @@ $jumlahProduk = mysqli_num_rows($queryProduk);
         </li>
       </ol>
     </nav>
-    <h2>Halo <?php echo $_SESSION['username']; ?></h2>
+    <h2>Halo <?= $username; ?></h2>
 
     <div class="container mt-5">
       <div class="row">

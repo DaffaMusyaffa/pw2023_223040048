@@ -1,4 +1,5 @@
 <?php
+
 require "koneksi.php";
 $queryProduk = mysqli_query($conn, "SELECT id, nama, harga, foto, detail FROM produk LIMIT 6");
 ?>
@@ -42,17 +43,17 @@ $queryProduk = mysqli_query($conn, "SELECT id, nama, harga, foto, detail FROM pr
       <div class="row mt-5">
         <div class="col-md-4 mb-3">
           <div class="highlighted-kategori kategori-fashion-pria d-flex justify-content-center align-items-center">
-            <h4 class=""><a class="no-decoration" href="produk.php?kategori=Fashion Pria">Fashion Pria</a></h4>
+            <h4 class=""><a class="no-decoration" href="produk.php?kategori=Classic Elegant">Classic Elegant</a></h4>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="highlighted-kategori kategori-fashion-wanita d-flex justify-content-center align-items-center">
-            <h4 class=""><a class="no-decoration" href="produk.php?kategori=Fashion Wanita">Fashion Wanita</a></h4>
+            <h4 class=""><a class="no-decoration" href="produk.php?kategori=Art Of Beat">Art Of Beat</a></h4>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="highlighted-kategori kategori-hoodie d-flex justify-content-center align-items-center">
-            <h4 class=""><a class="no-decoration" href="produk.php?kategori=Hoodie">Hoodie</a></h4>
+            <h4 class=""><a class="no-decoration" href="produk.php?kategori=Sporty Casual">Sporty Casual</a></h4>
           </div>
         </div>
       </div>
@@ -63,7 +64,11 @@ $queryProduk = mysqli_query($conn, "SELECT id, nama, harga, foto, detail FROM pr
   <div class="container-fluid warna1 py-5">
     <div class="container text-center">
       <h3>About Us</h3>
-      <p class="fs-5 mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum hic voluptatibus quaerat aliquam fugit est excepturi laudantium aspernatur beatae vero!</p>
+      <p class="fs-5 mt-3">Fashion Nova is the worlds leading quick-to-market apparel and lifestyle brand. We are renowned for delivering the seasons most wanted styles to millions of people worldwide, which earned us the title of the #1 Most-Searched Fashion Brand on Google in 2018.
+
+        As a Los Angeles based company with 5 retail stores throughout Southern California, we sell collections for women, men, curve, and kids. We are a pop culture phenomenon, reaching staggering social media followings of over 25 million, of which includes celebrity fans and collaborators.
+
+        Our name has been featured in songs and our styles have been worn by your favorite celebs. From Cardi B to Kylie Jenner, there isnt a famous booty our jeans havent been on. Tyga, The Game, YG, City Girls, Saweetie, Offset—youll hear Fashion Nova mentioned in the hottest chart-topping hits, worldwide.</p>
     </div>
   </div>
 
@@ -80,9 +85,9 @@ $queryProduk = mysqli_query($conn, "SELECT id, nama, harga, foto, detail FROM pr
                 <img src="image/<?php echo $data['foto']; ?>" class="card-img-top" alt="...">
               </div>
               <div class="card-body">
-                <h5 class="card-title"><?php $data['nama']; ?></h5>
-                <p class="card-text text-truncate"><?php $data['detail']; ?></p>
-                <p class="card-text text-harga"><?php $data['harga']; ?></p>
+                <h5 class="card-title"><?php echo $data['nama']; ?></h5>
+                <p class="card-text text-truncate"><?php echo $data['detail']; ?></p>
+                <p class="card-text text-harga"><?php echo $data['harga']; ?></p>
                 <a href="produk-detail.php?nama=<?php echo $data['nama']; ?>" class="btn warna1">Lihat Detail</a>
               </div>
             </div>

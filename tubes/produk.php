@@ -1,4 +1,5 @@
 <?php
+
 require "koneksi.php";
 
 $queryKategori = mysqli_query($conn, "SELECT * FROM kategori");
@@ -46,8 +47,15 @@ $countData = mysqli_num_rows($queryProduk);
     </div>
   </div>
 
+
   <!-- body -->
   <div class="container py-5">
+    <form action="">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Cari" name="keyword" id="keyword">
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Cari</button>
+      </div>
+    </form>
     <div class="row">
       <div class="col-lg-3 mb-5">
         <h3>Kategori</h3>
@@ -61,7 +69,7 @@ $countData = mysqli_num_rows($queryProduk);
       </div>
       <div class="col-lg-9">
         <h3 class="text-center mb-3">Produk</h3>
-        <div class="row">
+        <div class="row" id="resultContainer">
           <?php
           if ($countData < 1) {
           ?>
@@ -94,6 +102,28 @@ $countData = mysqli_num_rows($queryProduk);
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   <script src="fontawesome/js/all.min.js"></script>
+
+  <!-- Live Searching -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var keywordInput = document.getElementById("keyword");
+
+      keywordInput.addEventListener("keyup", function() {
+        var keyword = this.value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "search.php?keyword=" + keyword, true);
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            var resultContainer = document.getElementById("resultContainer");
+            resultContainer.innerHTML = xhr.responseText;
+          }
+        };
+        xhr.send();
+      });
+    });
+  </script>
+
 </body>
 
 </html>

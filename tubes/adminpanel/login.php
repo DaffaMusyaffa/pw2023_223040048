@@ -1,7 +1,88 @@
 <?php
 session_start();
 require "../koneksi.php";
+
+if (isset($_POST['register'])) {
+  $username = htmlspecialchars($_POST['username']);
+  $password = htmlspecialchars($_POST['password']);
+  $password2 = htmlspecialchars($_POST['password2']);
+
+  // Periksa apakah password dan konfirmasi password cocok
+  if ($password != $password2) {
 ?>
+    <div class="alert alert-warning" role="alert">
+      Konfirmasi password tidak cocok
+    </div>
+    <?php
+  } else {
+    // Periksa apakah username sudah terdaftar
+    $query = mysqli_query($conn, "SELECT * FROM users WHERE username='$username'");
+    $countdata = mysqli_num_rows($query);
+
+    if ($countdata > 0) {
+    ?>
+      <div class="alert alert-warning" role="alert">
+        Username sudah terdaftar. Silakan gunakan username lain.
+      </div>
+      <?php
+    } else {
+      // Enkripsi password sebelum disimpan ke database
+      $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+      // Simpan data ke database
+      $insertQuery = mysqli_query($conn, "INSERT INTO users (username, password, role) VALUES ('$username', '$hashedPassword', 'user')");
+
+      if ($insertQuery) {
+      ?>
+        <div class="alert alert-success" role="alert">
+          Registrasi berhasil. Silakan login.
+        </div>
+      <?php
+      } else {
+      ?>
+        <div class="alert alert-danger" role="alert">
+          Terjadi kesalahan saat menyimpan data. Silakan coba lagi.
+        </div>
+<?php
+      }
+    }
+  }
+}
+
+
+if (isset($_POST["login"])) {
+  $username = $_POST["username"];
+  $password = $_POST["password"];
+
+  $result = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username'");
+
+  // CEK USERNAME
+  if (mysqli_num_rows($result) === 1) {
+    // CEK PASSWORD
+    $row = mysqli_fetch_assoc($result);
+    if (password_verify($password, $row["password"])) {
+      // set session
+      $_SESSION["login"] = true;
+      $_SESSION["id"] = $row["id"];
+
+      setcookie("username", $username, time() + 3600);
+
+      // cek peran pengguna
+      if ($row["role"] == "admin") {
+        header("location: index.php");
+      } else {
+        header("location: ../index.php");
+      }
+      exit;
+    }
+  }
+
+  $error = true;
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,6 +95,231 @@ require "../koneksi.php";
 </head>
 
 <style>
+  /* mulai form */
+  @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+
+  html,
+  body {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    place-items: center;
+    background: -webkit-linear-gradient(left, #1bb5e9, #fff);
+  }
+
+  ::selection {
+    background: #1bb5e9;
+    color: #fff;
+  }
+
+  .wrapper {
+    overflow: hidden;
+    max-width: 390px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .wrapper .title-text {
+    display: flex;
+    width: 200%;
+  }
+
+  .wrapper .title {
+    width: 50%;
+    font-size: 35px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .wrapper .slide-controls {
+    position: relative;
+    display: flex;
+    height: 50px;
+    width: 100%;
+    overflow: hidden;
+    margin: 30px 0 10px 0;
+    justify-content: space-between;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+  }
+
+  .slide-controls .slide {
+    height: 100%;
+    width: 100%;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 48px;
+    cursor: pointer;
+    z-index: 1;
+    transition: all 0.6s ease;
+  }
+
+  .slide-controls label.signup {
+    color: #000;
+  }
+
+  .slide-controls .slider-tab {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    left: 0;
+    z-index: 0;
+    border-radius: 5px;
+    background: -webkit-linear-gradient(left, #1bb5e9, #1bb5e9);
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  #signup:checked~.slider-tab {
+    left: 50%;
+  }
+
+  #signup:checked~label.signup {
+    color: #fff;
+    cursor: default;
+    user-select: none;
+  }
+
+  #signup:checked~label.login {
+    color: #000;
+  }
+
+  #login:checked~label.signup {
+    color: #000;
+  }
+
+  #login:checked~label.login {
+    cursor: default;
+    user-select: none;
+  }
+
+  .wrapper .form-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .form-container .form-inner {
+    display: flex;
+    width: 200%;
+  }
+
+  .form-container .form-inner form {
+    width: 50%;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .form-inner form .field {
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .form-inner form .field input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    padding-left: 15px;
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+    border-bottom-width: 2px;
+    font-size: 17px;
+    transition: all 0.3s ease;
+  }
+
+  .form-inner form .field input:focus {
+    border-color: #1bb5e9;
+    /* box-shadow: inset 0 0 3px ##1bb5e9; */
+  }
+
+  .form-inner form .field input::placeholder {
+    color: #999;
+    transition: all 0.3s ease;
+  }
+
+  form .field input:focus::placeholder {
+    color: #b3b3b3;
+  }
+
+  .form-inner form .pass-link {
+    margin-top: 5px;
+  }
+
+  .form-inner form .signup-link {
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .form-inner form .pass-link a,
+  .form-inner form .signup-link a {
+    color: #1bb5e9;
+    text-decoration: none;
+  }
+
+  .form-inner form .pass-link a:hover,
+  .form-inner form .signup-link a:hover {
+    text-decoration: underline;
+  }
+
+  form .btn {
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  form .btn .btn-layer {
+    height: 100%;
+    width: 300%;
+    position: absolute;
+    left: -100%;
+    background: -webkit-linear-gradient(right,
+        #1bb5e9,
+        #1bb5e9,
+        #1bb5e9,
+        #1bb5e9);
+    border-radius: 5px;
+    transition: all 0.4s ease;
+  }
+
+  form .btn:hover .btn-layer {
+    left: 0;
+  }
+
+  form .btn input[type="submit"] {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    position: relative;
+    background: none;
+    border: none;
+    color: #fff;
+    padding-left: 0;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  /* terakhir form */
+
+
+
   .main {
     height: 100vh;
   }
@@ -27,54 +333,111 @@ require "../koneksi.php";
 </style>
 
 <body>
-  <div class="main d-flex flex-colomn justify-content-center align-items-center">
-    <div class="login-box p-5 shadow">
-      <form action="" method="post">
-        <div>
-          <label for="username">Username</label>
-          <input type="text" class="form-control" name="username" id="username" autocomplete="off">
-        </div>
-        <div>
-          <label for="password">Password</label>
-          <input type="password" class="form-control" name="password" id="password">
-        </div>
-        <div>
-          <button class="btn btn-success form-control mt-3" type="submit" name="loginbtn">Login</button>
-        </div>
-      </form>
+  <div class="wrapper">
+    <div class="title-text">
+      <div class="title login">Login</div>
+      <div class="title signup">Registrasi</div>
     </div>
-    <div class="mt-3" style="width: 500px">
-      <?php
-      if (isset($_POST['loginbtn'])) {
-        $username = htmlspecialchars($_POST['username']);
-        $password = htmlspecialchars($_POST['password']);
-
-        $query = mysqli_query($conn, "SELECT * FROM users WHERE username='$username'");
-        $countdata = mysqli_num_rows($query);
-        $data = mysqli_fetch_array($query);
-
-        if ($countdata > 0) {
-          if (password_verify($password, $data['password'])) {
-            $_SESSION['username'] = $data['username'];
-            $_SESSION['login'] = true;
-            header('location: ../adminpanel');
-          } else {
-      ?>
-            <div class="alert alert-warning" role="alert">
-              Password salah
-            </div>
-          <?php
-          }
-        } else {
-          ?>
-          <div class="alert alert-warning" role="alert">
-            Akun tidak tersedia
+    <div class="form-container">
+      <div class="slide-controls">
+        <input type="radio" name="slide" id="login" checked />
+        <input type="radio" name="slide" id="signup" />
+        <label for="login" class="slide login">Login</label>
+        <label for="signup" class="slide signup">Registrasi</label>
+        <div class="slider-tab"></div>
+      </div>
+      <div class="form-inner">
+        <form action="" method="post" class="login">
+          <div class="field">
+            <input type="text" name="username" placeholder="Masukan Username" required />
           </div>
-      <?php
-        }
-      }
-      ?>
+          <div class="field">
+            <input type="password" name="password" placeholder="Masukan Password" required />
+          </div>
+          <div class="pass-link">
+            <a href="#">Lupa password?</a>
+          </div>
+          <div class="field btn">
+            <div class="btn-layer"></div>
+            <input type="submit" name="login" value="Login" />
+          </div>
+          <div class="signup-link">
+            Belum Punya Akun? <a href="">Daftar Sekarang</a>
+          </div>
+        </form>
+        <form action="#" method="post" class="signup">
+          <div class="field">
+            <input type="text" name="username" placeholder="Masukan Username" required />
+          </div>
+          <div class="field">
+            <input type="password" name="password" placeholder="Masukan Password" required />
+          </div>
+          <div class="field">
+            <input type="password" name="password2" placeholder="Konfirmasi password" required />
+          </div>
+          <div class="field btn">
+            <div class="btn-layer"></div>
+            <input type="submit" name="register" value="Daftar" />
+          </div>
+
+          <div class="mt-3">
+            <?php if (isset($_POST['loginbtn'])) {
+              $username = htmlspecialchars($_POST['username']);
+              $password = htmlspecialchars($_POST['password']);
+
+              $query = mysqli_query($conn, "SELECT * FROM users WHERE username='$username'");
+              $countdata = mysqli_num_rows($query);
+              $data = mysqli_fetch_array($query);
+
+              if ($countdata > 0) {
+                if (password_verify($password, $data['password'])) {
+                  $_SESSION['username'] = $data['username'];
+                  $_SESSION['login'] = true;
+                  header('location: ../adminpanel');
+                } else {
+            ?>
+                  <div class="alert alert-warning" role="alert">
+                    Password salah
+                  </div>
+                <?php
+                }
+              } else {
+                ?>
+                <div class="alert alert-warning" role="alert">
+                  Akun tidak tersedia
+                </div>
+            <?php
+              }
+            }
+            ?>
+          </div>
+
+        </form>
+      </div>
     </div>
+  </div>
+  <script>
+    const loginText = document.querySelector(".title-text .login");
+    const loginForm = document.querySelector("form.login");
+    const loginBtn = document.querySelector("label.login");
+    const signupBtn = document.querySelector("label.signup");
+    const signupLink = document.querySelector("form .signup-link a");
+    signupBtn.onclick = () => {
+      loginForm.style.marginLeft = "-50%";
+      loginText.style.marginLeft = "-50%";
+    };
+    loginBtn.onclick = () => {
+      loginForm.style.marginLeft = "0%";
+      loginText.style.marginLeft = "0%";
+    };
+    signupLink.onclick = () => {
+      signupBtn.click();
+      return false;
+    };
+  </script>
+  <div class="mt-3" style="width: 500px">
+
+  </div>
   </div>
 </body>
 
