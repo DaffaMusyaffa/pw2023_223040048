@@ -1,5 +1,4 @@
 <?php
-
 require "koneksi.php";
 $queryProduk = mysqli_query($conn, "SELECT id, nama, harga, foto, detail FROM produk LIMIT 6");
 ?>

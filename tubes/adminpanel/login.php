@@ -354,9 +354,6 @@ if (isset($_POST["login"])) {
           <div class="field">
             <input type="password" name="password" placeholder="Masukan Password" required />
           </div>
-          <div class="pass-link">
-            <a href="#">Lupa password?</a>
-          </div>
           <div class="field btn">
             <div class="btn-layer"></div>
             <input type="submit" name="login" value="Login" />
